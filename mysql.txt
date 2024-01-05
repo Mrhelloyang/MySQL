@@ -58,7 +58,7 @@ select
 from
 	表名1
 where
-	条件列表2
+	分组前条件列表2
 group by 
 	分组3
 having
@@ -67,5 +67,16 @@ order by
 	排序字段列表5
 limit
 	分页参数6
-----------------------------
 select name, age from user where age>=11 order by age asc;
+-----------------------------------------------------------------------
+DCL数据控制语言
+create user  'itcast'@'localhost' identified by '123456';#创建用户itcast只能在当前主机localhost访问，密码：123456；
+create user  'heima'@'%' identified by '123456';#创建用户heima只能在任意主机访问，密码：123456；
+alter user 'heima'@'%' identified  with mysql_native_password by '1234';#修改密码
+drop user 'heima'@'%';#%表示可以在所有地址访问，删除用户。
+show grants for 'heima'@'%';
+grant all on itcast.* to 'heima'@'%';#授权itcast给heima
+grant all on *.* to 'heima'@'%';#超级权限
+revoke all on itcast.* from 'heima';
+update user set workno=lpad (workno,5,'0');
+select * from user;#简单查看表内容；
