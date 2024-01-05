@@ -1,0 +1,71 @@
+==========
+#MySQL学习
+==========
+MySql的启动与停止
+(方法一)1.Win+R,2.services.msc, 3.启动与停止
+(方法二)1.cmd以管理员身份启动，启动：net start mysql80，关闭：net stop mysql80.
+-----------------------------------------------------------------------------------------------
+客户端的连接
+(方法一)MySQL提供的客户端命令行工具，直接打开。
+(方法二)命令行打开：1.Win+R, 2mysql [-h127.0.0.1][-P3306] -u root -p,[]可不写
+-------------------------------------------------------------------------------------------、
+关系型数据建立在关系模型基础上，由多张表相互连接的二维表组成。
+--------------------------------------------
+MySQL的基本语法
+1.单行和多行以分号结尾；。
+2.注释可单行也可以多行-，单行-和#，多行用/*注释*/。
+3.关键字可用大写也可用小写。
+----------------------------------------------------------------
+SQL分类
+DDL：数据定义语言，用来定义数据对象（数据库，表，字段）。
+DML：数据操作语言，用来对数据库中的数据进行增删改查。
+DQL：数据查询语言，用来对查询数据库中表中的记录。
+DCL : 数据控制语句，用来创建数据库用户，控制数据库的访问权限。
+-----------------------------------------------------------------------------
+DDL表操作
+show databases;#查询所用数据库；
+select database；#查询当前数据库；
+create database [if not exists] 数据库名；#创建数据库,[]里面的可以不用写
+drop database [if exists] 数据库名；#删除数据库
+use 数据库名；#使用数据库；
+show tables;#查询当前数据库的所有表；
+desc 表名；#查询表结构；
+show create table 表名；
+create table 表名(
+	字段名1 类型 comment  '注释',
+	字段名2 类型 comment  '注释',
+	.......................................................	
+	字段名3 类型 comment  '注释'
+) comment '注释'；
+------------------------------------------------------------------------
+alter table tb_user1 rename to newtb_user1;#修改表名
+drop table if exists 表名;#删除表
+alter table 表名 add 字段名 类型；#增加字段
+truncate table 表名；#删除表重新创建表
+聚合函数(count, max, min, avg, sum)
+select 字段列表 from 表名 where 条件 group by 分组字段名 [having 分组后筛选条件] 
+select  * from user  order by 字段1 排序方式1 字段2 排序方式2;//asc升序，desc降序排序
+ #asc可以省略
+#分页查询
+select 字段列表 from 表名 limit 起始索引，查询记录数；# 类似于步长概念，等于（页码-1）*页展示记录数
+select * from user gender='女' and age in(20,21,23);
+select *from user where gender='男' and (age between 10 and 11) and name like '___'
+select gender,count(*) from user where age<11 group by gender; 
+select * from user where age<=11 order by age asc,entrydate desc;
+select *from user where  (age between 10 and 11) and gender ='男' order by age ,entrydate desc limit 0,1; 
+select 
+	字段列表4
+from
+	表名1
+where
+	条件列表2
+group by 
+	分组3
+having
+	分组后筛选条件3
+order by
+	排序字段列表5
+limit
+	分页参数6
+----------------------------
+select name, age from user where age>=11 order by age asc;
