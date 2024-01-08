@@ -80,3 +80,41 @@ grant all on *.* to 'heima'@'%';#超级权限
 revoke all on itcast.* from 'heima';
 update user set workno=lpad (workno,5,'0');
 select * from user;#简单查看表内容；
+
+alter table emp add constraint  fk_emp_name_status foreign key (dep_id) references dept(id);#添加外键， emp为子表 ，dept为父表，dep_id为外键字段名，id主表列名
+#建立外键把外键取个名；
+alter table emp drop foreign key fk_emp_dept_id;#这里直接用外键名把表的外键删除
+create table emp(
+    id int  auto_increment comment 'ID' primary key,
+    name varchar(50) not null comment '姓名',
+    age int comment '年龄',
+    job varchar(20) comment '职位',
+    salary int comment '薪资',
+    entrydate date comment '入职时间',
+    managerid int comment '直属领导id',
+    dep_id int comment '部门ID'
+)comment '员工表';
+use itcast;
+insert into emp (id,name,age,job,salary,entrydate,managerid,dep_id)values
+    (1,'金庸',66,'总裁',20000,'2000-01-01',null,5),(2,'张无忌',20,'项目经理',12500,'2005-12-05',1,1),
+    (3,'杨逍',33,'开发',8400,'2000-11-03',2,1),(4,'韦一笑',48,'开发',11000,'2002-02-05',2,1),
+    (5,'常遇春',43,'开发',10500,'2004-09-07',3,1),(6,'小邵',19,'程序员鼓励师',6600,'2004-10-12',2,1);
+create table dept(
+    id int primary key,
+    name varchar(20)
+);
+insert into dept (id,name)values
+    (1,'研发部'),(2,'市场部'),
+    (3,'财务部'),(4,'销售部'),
+    (5,'总经办');
+
+
+
+alter table emp add constraint  fk_emp_dept_id foreign key (dep_id) references dept(id);
+
+alter table emp drop foreign key fk_emp_dept_id;
+
+ALTER TABLE emp DROP FOREIGN KEY fk_emp_dept_id;
+-- 删除更新行为
+alter table emp add constraint  fk_emp_dept_id foreign key (dep_id) references dept(id) on update cascade on delete cascade ;#这个都和子表关联，改变就都改变，删除就都删除
+alter table emp add constraint  fk_emp_dept_id foreign key (dep_id) references dept(id) on update cascade on delete set null ;#这个都和子表关联，改变就都改变，删除就对于的外键列表置空
