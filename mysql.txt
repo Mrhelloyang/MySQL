@@ -118,3 +118,6 @@ ALTER TABLE emp DROP FOREIGN KEY fk_emp_dept_id;
 -- 删除更新行为
 alter table emp add constraint  fk_emp_dept_id foreign key (dep_id) references dept(id) on update cascade on delete cascade ;#这个都和子表关联，改变就都改变，删除就都删除
 alter table emp add constraint  fk_emp_dept_id foreign key (dep_id) references dept(id) on update cascade on delete set null ;#这个都和子表关联，改变就都改变，删除就对于的外键列表置空
+
+select e.name, d.name from emp e ,dept d where e.dept_id=d.id ;#隐式内连接
+select e.name,d.name from emp e inner join dept d where e.dept_id=d.id;#显示内连接，这里可以用where也可以用on
